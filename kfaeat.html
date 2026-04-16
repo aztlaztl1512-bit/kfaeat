@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحدي الكفايات اللغوية - أ/ عبدالعزيز الفيفي</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        :root { --primary: #1a237e; --secondary: #3949ab; --bg: #f0f2f5; --accent: #ff9800; --correct: #2e7d32; --wrong: #c62828; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .quiz-container { background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 90%; max-width: 700px; text-align: center; position: relative; overflow: hidden; }
+        #timer-bar { position: absolute; top: 0; right: 0; height: 6px; background: var(--accent); width: 100%; transition: width 1s linear; border-radius: 15px 15px 0 0; }
+        .option-btn { display: block; width: 100%; padding: 12px; margin: 10px 0; border: 2px solid #ddd; border-radius: 8px; background: white; cursor: pointer; transition: 0.3s; font-size: 1.1rem; font-weight: 500; font-family: inherit; }
+        .correct-flash { background-color: #e8f5e9 !important; border-color: var(--correct) !important; color: var(--correct); border-width: 3px !important; }
+        .wrong-flash { background-color: #ffebee !important; border-color: var(--wrong) !important; color: var(--wrong); }
+        .hidden { display: none; }
+        .section-tag { background: var(--primary); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.9rem; margin-bottom: 10px; display: inline-block; }
+        .reading-text { background: #fffde7; padding: 15px; border-radius: 8px; margin-bottom: 15px; text-align: right; font-size: 1.1rem; border-right: 5px solid var(--accent); line-height: 1.8; color: #333; }
+        input[type="text"] { width: 85%; padding: 12px; margin-bottom: 20px; border-radius: 8px; border: 2px solid #ddd; font-size: 1rem; text-align: center; }
+        .btn-start { background: var(--primary); color: white; padding: 12px 30px; border: none; border-radius: 8px; cursor: pointer; font-size: 1.1rem; font-weight: bold; }
+        #feedback { margin-top: 15px; font-weight: bold; font-size: 1.1rem; min-height: 1.5em; }
+        #timer-text { font-weight: bold; color: var(--accent); margin-bottom: 10px; }
+        .copyright { font-size: 0.85rem; color: #666; margin-top: 25px; border-top: 1px solid #eee; padding-top: 10px; }
+        .normal-text { color: #000; font-weight: normal; }
+    </style>
+</head>
+<body onload="updateDateTime()">
+
+<div class="quiz-container">
+    <div id="timer-bar"></div>
+    
+    <div id="login-section">
+        <h2 style="color: var(--primary);">تحدي الكفايات اللغوية 💡</h2>
+        <div id="date-display" style="color: #e53e3e; font-weight: bold; margin-bottom: 15px;"></div>
+        <input type="text" id="student-name" placeholder="أدخل اسمك المبدع لتبدأ...">
+        <br>
+        <button class="btn-start" onclick="startQuiz()">ابدأ التحدي الآن</button>
+        <div class="copyright">أ/ <span class="normal-text">عبدالعزيز الفيفي</span> - ثانوية الأمير عبدالمجيد 🎓</div>
+    </div>
+
+    <div id="quiz-section" class="hidden">
+        <div id="timer-text">الوقت المتبقي: 45</div>
+        <div id="section-label" class="section-tag"></div>
+        <div id="reading-container" class="reading-text hidden"></div>
+        <h2 id="question-text" style="margin: 15px 0; color: #333;"></h2>
+        <div id="options-container"></div>
+        <div id="feedback"></div>
+        <div class="copyright">أ/ <span class="normal-text">عبدالعزيز الفيفي</span> 🎓</div>
+    </div>
+
+    <div id="result-section" class="hidden">
+        <h2 id="congrats-msg">أحسنت يا بطل!</h2>
+        <h1 id="final-score" style="color: var(--primary);"></h1>
+        <button class="btn-start" onclick="location.reload()" style="background: linear-gradient(45deg, #1a237e, #3949ab); border-radius: 50px;">
+            حاول مرة أخرى لتعزيز مهاراتك 🚀
+        </button>
+        <p style="margin-top: 20px;">أ / <span class="normal-text">عبد العزيز الفيفي</span> - ثانوية الأمير عبدالمجيد</p>
+    </div>
+</div>
+
+<script>
+    function updateDateTime() {
+        const today = new Date();
+        const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', calendar: 'islamic-umalqura', numberingSystem: 'arabic' };
+        document.getElementById('date-display').innerText = new Intl.DateTimeFormat('ar-SA', options).format(today);
+    }
+
+    // مصفوفة البيانات (سيتم استبدال محتواها عند طلب كل درس)
+    const rawData = [
+        { section: "إكمال الفراغ", q: "يُرفع الفعل المضارع الصحيح الآخر وعلامة رفعه .......", options: ["الضمة الظاهرة", "الفتحة", "ثبوت النون", "الكسرة"], correct: "الضمة الظاهرة" },
+        { section: "التمثيل في جمل", q: "مثل لـ (مفعول لأجله) في جملة مفيدة:", options: ["نذاكر رغبةً في النجاح", "رأيت الطالبَ مسرعاً", "كتبتُ درساً جميلاً", "سلمتُ على المعلمِ"], correct: "نذاكر رغبةً في النجاح" },
+        { section: "الإعراب", q: "ما إعراب (المسلمون) في: 'ينتصر المسلمون بالصبر'؟", options: ["فاعل مرفوع بالواو", "مبتدأ مرفوع بالضمة", "مفعول به منصوب", "اسم مجرور"], correct: "فاعل مرفوع بالواو" },
+        { section: "استخرج من النص", text: "إنَّ الصدقَ منجاةٌ، فتمسك به لتنال رضا الله.", q: "استخرج من النص السابق (اسم إن):", options: ["الصدقَ", "منجاةٌ", "رضا", "الله"], correct: "الصدقَ" },
+        { section: "اختر الجواب الصحيح", q: "أي من الجمل التالية تشتمل على (بدل)؟", options: ["زرتُ العاصمةَ الرياض", "جاء المعلمُ نفسه", "رأيتُ الطالبين كلاهما", "الجوُّ جميلٌ"], correct: "زرتُ العاصمةَ الرياض" },
+        { section: "الصح والخطأ", q: "جمع المؤنث السالم يُنصب وعلامة نصبه الفتحة.", options: ["صح", "خطأ"], correct: "خطأ" }
+    ];
+
+    let currentQ = 0;
+    let score = 0;
+    let timerInterval;
+    let quizData = [];
+
+    function startQuiz() {
+        const name = document.getElementById('student-name').value;
+        if (!name) { alert("لطفاً، سجل اسمك لنعرف من المبدع!"); return; }
+        quizData = [...rawData]; // يمكن إضافة shuffle هنا إذا أردت عشوائية
+        document.getElementById('login-section').classList.add('hidden');
+        document.getElementById('quiz-section').classList.remove('hidden');
+        showQuestion();
+    }
+
+    function showQuestion() {
+        const q = quizData[currentQ];
+        document.getElementById('section-label').innerText = q.section;
+        
+        const readingBox = document.getElementById('reading-container');
+        if (q.text) { readingBox.innerText = q.text; readingBox.classList.remove('hidden'); } 
+        else { readingBox.classList.add('hidden'); }
+
+        document.getElementById('question-text').innerText = q.q;
+        const container = document.getElementById('options-container');
+        container.innerHTML = '';
+        document.getElementById('feedback').innerText = '';
+
+        q.options.forEach((opt, index) => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerText = opt;
+            btn.onclick = () => checkAnswer(btn, opt === q.correct, q.correct);
+            container.appendChild(btn);
+        });
+        startTimer();
+    }
+
+    function startTimer() {
+        let timeLeft = 45;
+        clearInterval(timerInterval);
+        const timerBar = document.getElementById('timer-bar');
+        const timerText = document.getElementById('timer-text');
+        
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            timerText.innerText = `الوقت المتبقي: ${timeLeft}`;
+            timerBar.style.width = `${(timeLeft / 45) * 100}%`;
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                disableOptions();
+                document.getElementById('feedback').innerHTML = "<span style='color:orange'>انتهى الوقت! حاول في السؤال القادم ⏳</span>";
+                setTimeout(nextQuestion, 2000);
+            }
+        }, 1000);
+    }
+
+    function checkAnswer(btn, isCorrect, correctText) {
+        clearInterval(timerInterval);
+        disableOptions();
+        if (isCorrect) {
+            score++;
+            btn.classList.add('correct-flash');
+            document.getElementById('feedback').innerHTML = "<span style='color:green'>إجابة متميزة! استمر يا بطل ✨</span>";
+            confetti({ particleCount: 80, spread: 50, origin: { y: 0.7 } });
+        } else {
+            btn.classList.add('wrong-flash');
+            highlightCorrect(correctText);
+            document.getElementById('feedback').innerHTML = "<span style='color:red'>ليست دقيقة، الصواب موضح بالأخضر ✅</span>";
+        }
+        setTimeout(nextQuestion, 2500);
+    }
+
+    function highlightCorrect(correctText) {
+        document.querySelectorAll('.option-btn').forEach(b => {
+            if (b.innerText === correctText) b.classList.add('correct-flash');
+        });
+    }
+
+    function disableOptions() {
+        document.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
+    }
+
+    function nextQuestion() {
+        currentQ++;
+        if (currentQ < quizData.length) { showQuestion(); } 
+        else { finishQuiz(); }
+    }
+
+    function finishQuiz() {
+        document.getElementById('quiz-section').classList.add('hidden');
+        document.getElementById('result-section').classList.remove('hidden');
+        document.getElementById('final-score').innerText = `حصلت على: ${score} من ${quizData.length}`;
+        if(score === quizData.length) {
+            document.getElementById('congrats-msg').innerText = "عبقري اللغة العربية! علامة كاملة 🏆";
+        }
+    }
+</script>
+</body>
+</html>
