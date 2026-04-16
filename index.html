@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تحدي الكفايات اللغوية الشامل - أ/ عبدالعزيز الفيفي</title>
+    <title>تحدي الكفايات اللغوية الذكي - أ/ عبدالعزيز الفيفي</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
         :root { --primary: #1a237e; --secondary: #3949ab; --bg: #f0f2f5; --accent: #ff9800; --correct: #2e7d32; --wrong: #c62828; }
@@ -32,11 +32,11 @@
     
     <div id="login-section">
         <h2 style="color: var(--primary);">تحدي الكفايات اللغوية (36 سؤالاً) 💡</h2>
-        <h4 style="margin-top: -10px; color: var(--secondary);">( أقسام الكلام والجملة الاسمية ونواسخها )</h4>
+        <h4 style="margin-top: -10px; color: var(--secondary);">( الأسئلة تظهر بترتيب عشوائي في كل محاولة )</h4>
         <div id="date-display" style="color: #e53e3e; font-weight: bold; margin-bottom: 15px;"></div>
-        <input type="text" id="student-name" placeholder="أدخل اسمك الثلاثي لتبدأ التحدي الشامل...">
+        <input type="text" id="student-name" placeholder="أدخل اسمك الثلاثي لتبدأ...">
         <br>
-        <button class="btn-start" onclick="startQuiz()">ابدأ ماراثون التحدي</button>
+        <button class="btn-start" onclick="startQuiz()">ابدأ التحدي العشوائي</button>
         <div class="copyright">أ/ <span class="normal-text">عبدالعزيز الفيفي</span> - ثانوية الأمير عبدالمجيد 🎓</div>
     </div>
 
@@ -56,7 +56,7 @@
         <h1 id="final-score" style="color: var(--primary); font-size: 3rem;"></h1>
         <p id="evaluation-text" style="font-weight: bold; margin-bottom: 20px;"></p>
         <button class="btn-start" onclick="location.reload()" style="background: linear-gradient(45deg, #1a237e, #3949ab); border-radius: 50px; padding: 15px 40px;">
-            تحدي النفس مرة أخرى 🚀
+            تحدي النفس بترتيب جديد 🔄
         </button>
         <p style="margin-top: 25px;">أ / <span class="normal-text">عبد العزيز الفيفي</span> - ثانوية الأمير عبدالمجيد</p>
     </div>
@@ -70,7 +70,7 @@
     }
 
     const rawData = [
-        // --- القسم 1: إكمال الفراغ (6 أسئلة) ---
+        // --- القسم 1: إكمال الفراغ ---
         { section: "إكمال الفراغ", q: "من أخوات كان التي تفيد النفي هي الفعل .......", options: ["ليس", "صار", "أمسى", "بات"], correct: "ليس" },
         { section: "إكمال الفراغ", q: "تدخل (إن وأخواتها) على الجملة الاسمية فتنصب .......", options: ["المبتدأ", "الخبر", "الفاعل", "الحال"], correct: "المبتدأ" },
         { section: "إكمال الفراغ", q: "الفعل (صار) من أخوات كان ويفيد .......", options: ["التحويل", "النفي", "التوقيت بالمساء", "الاستمرار"], correct: "التحويل" },
@@ -78,7 +78,7 @@
         { section: "إكمال الفراغ", q: "كلمة (يذهب) في أقسام الكلام تصنف على أنها .......", options: ["فعل", "اسم", "حرف", "جملة"], correct: "فعل" },
         { section: "إكمال الفراغ", q: "علامة رفع اسم (كان) إذا كان جمع مذكر سالم هي .......", options: ["الواو", "الضمة", "الألف", "ثبوت النون"], correct: "الواو" },
 
-        // --- القسم 2: التمثيل في جمل مفيدة (6 أسئلة) ---
+        // --- القسم 2: التمثيل في جمل مفيدة ---
         { section: "التمثيل في جمل", q: "اختر الجملة التي تحتوي على اسم يفيد (العموم) والشمول:", options: ["المعرفةُ قوةٌ", "محمدٌ كريمٌ", "هذا كتابٌ", "قرأتُ قصةً"], correct: "المعرفةُ قوةٌ" },
         { section: "التمثيل في جمل", q: "جملة تشتمل على (ليت) تفيد التمني:", options: ["ليت الشبابَ يعودُ", "ليت المسافرَ قادمٌ", "لعل اللهَ يرحمنا", "إن اللهَ غفورٌ"], correct: "ليت الشبابَ يعودُ" },
         { section: "التمثيل في جمل", q: "مثل لجملة اسمية مسبوقة بـ (أصبح) وتفيد التوقيت بالصباح:", options: ["أصبح الجوُّ بارداً", "أمسى العالمُ منيراً", "صار الماءُ ثلجاً", "ليس الكذبُ منجياً"], correct: "أصبح الجوُّ بارداً" },
@@ -86,15 +86,15 @@
         { section: "التمثيل في جمل", q: "أي الجمل التالية دخلت عليها (لكن) بشكل صحيح؟", options: ["الشمسُ طالعةٌ لكن الجوَّ باردٌ", "لكن الطالبَ ناجحٌ", "الجوُّ باردٌ لكن الشمسُ طالعةٌ", "لكنَّ اللهَ كريمٌ"], correct: "الشمسُ طالعةٌ لكن الجوَّ باردٌ" },
         { section: "التمثيل في جمل", q: "مثل لجملة اسمية دخلت عليها (كأن) وتفيد التشبيه:", options: ["كأنَّ الجنديَّ أسدٌ", "كأنَّ السماءَ تمطرُ", "لعلَّ النصرَ قريبٌ", "إنَّ العلمَ مفيدٌ"], correct: "كأنَّ الجنديَّ أسدٌ" },
 
-        // --- القسم 3: الإعراب (6 أسئلة) ---
+        // --- القسم 3: الإعراب ---
         { section: "الإعراب", q: "ما إعراب (القمر) في جملة: 'كأنَّ القمرَ مصباحٌ'؟", options: ["اسم كأن منصوب بالفتحة", "خبر كأن مرفوع بالضمة", "مبتدأ مرفوع بالضمة", "اسم كأن مرفوع بالضمة"], correct: "اسم كأن منصوب بالفتحة" },
-        { section: "الإعراب", q: "ما إعراب (مجتهدون) في: 'كان الطلابُ مجتهدين'؟ (تنبيه: تم تعديل الخيارات للدقة)", options: ["خبر كان منصوب بالياء", "اسم كان مرفوع بالواو", "خبر كان مرفوع بالواو", "حال منصوب بالفتحة"], correct: "خبر كان منصوب بالياء" },
+        { section: "الإعراب", q: "ما إعراب (مجتهدين) في: 'كان الطلابُ مجتهدين'؟", options: ["خبر كان منصوب بالياء", "اسم كان مرفوع بالواو", "خبر كان مرفوع بالواو", "حال منصوب بالفتحة"], correct: "خبر كان منصوب بالياء" },
         { section: "الإعراب", q: "كلمة (من) في جملة 'خرجتُ من البيت' تعرب:", options: ["حرف جر", "اسم مجرور", "فعل ماض", "حرف عطف"], correct: "حرف جر" },
         { section: "الإعراب", q: "إعراب الخبر في جملة 'إنَّ اللهَ سميعٌ':", options: ["خبر إن مرفوع بالضمة", "خبر إن منصوب بالفتحة", "اسم إن مرفوع بالضمة", "مبتدأ مرفوع بالضمة"], correct: "خبر إن مرفوع بالضمة" },
         { section: "الإعراب", q: "علامة نصب اسم (إن) إذا كان من الأسماء الخمسة هي:", options: ["الألف", "الفتحة", "الياء", "الكسرة"], correct: "الألف" },
         { section: "الإعراب", q: "ما إعراب (الجو) في جملة: 'أصبح الجوُّ صحواً'؟", options: ["اسم أصبح مرفوع بالضمة", "خبر أصبح منصوب بالفتحة", "مبتدأ مرفوع بالضمة", "فاعل مرفوع بالضمة"], correct: "اسم أصبح مرفوع بالضمة" },
 
-        // --- القسم 4: استخرج من النص (6 أسئلة) ---
+        // --- القسم 4: استخرج من النص ---
         { section: "استخرج من النص", text: "كان الوقتُ ليلاً، ولكنَّ القمرَ كان بدراً منيراً في السماء.", q: "استخرج من النص السابق (حرفاً ناسخاً):", options: ["لكنَّ", "كان", "منيراً", "في"], correct: "لكنَّ" },
         { section: "استخرج من النص", text: "أصبحت القراءةُ ضرورةً، لعلَّ الجيلَ يدركُ قيمتها.", q: "استخرج من النص السابق (اسم لعل):", options: ["الجيلَ", "القراءةُ", "ضرورةً", "يدركُ"], correct: "الجيلَ" },
         { section: "استخرج من النص", text: "إنَّ المعلمين مخلصون في أداء رسالتهم السامية.", q: "استخرج من النص السابق (خبر إن):", options: ["مخلصون", "المعلمين", "رسالتهم", "السامية"], correct: "مخلصون" },
@@ -102,7 +102,7 @@
         { section: "استخرج من النص", text: "صار التعلمُ عن بعد وسيلةً فعالةً في وقتنا الحالي.", q: "استخرج من النص السابق (خبر صار):", options: ["وسيلةً", "التعلمُ", "فعالةً", "الحالي"], correct: "وسيلةً" },
         { section: "استخرج من النص", text: "إنَّ الصدقَ منجاةٌ، فكن صادقاً دائماً.", q: "استخرج من النص السابق (فعل أمر ناسخ):", options: ["كن", "إنَّ", "الصدقَ", "صادقاً"], correct: "كن" },
 
-        // --- القسم 5: اختر الجواب الصحيح (6 أسئلة) ---
+        // --- القسم 5: اختر الجواب الصحيح ---
         { section: "اختر الجواب الصحيح", q: "أي مما يلي يعد من أخوات (إن)؟", options: ["ليت", "صار", "أمسى", "ما برح"], correct: "ليت" },
         { section: "اختر الجواب الصحيح", q: "الجملة الصحيحة نحوياً فيما يلي هي:", options: ["كان المسلمون صابرين", "كان المسلمين صابرون", "كان المسلمون صابرون", "كان المسلمين صابرين"], correct: "كان المسلمون صابرين" },
         { section: "اختر الجواب الصحيح", q: "ما هي الوظيفة النحوية لـ (إن وأخواتها)؟", options: ["تنصب المبتدأ وترفع الخبر", "ترفع المبتدأ وتنصب الخبر", "ترفع المبتدأ والخبر", "تنصب المبتدأ والخبر"], correct: "تنصب المبتدأ وترفع الخبر" },
@@ -110,7 +110,7 @@
         { section: "اختر الجواب الصحيح", q: "ما هي علامة رفع المبتدأ إذا كان مثنى؟", options: ["الألف", "الضمة", "الواو", "ثبوت النون"], correct: "الألف" },
         { section: "اختر الجواب الصحيح", q: "الفعل (بات) يفيد التوقيت بـ:", options: ["الليل", "الصباح", "المساء", "الضحى"], correct: "الليل" },
 
-        // --- القسم 6: الصح والخطأ (6 أسئلة) ---
+        // --- القسم 6: الصح والخطأ ---
         { section: "الصح والخطأ", q: "يُسمى المبتدأ بعد دخول (كان) عليها اسماً لها ويبقى مرفوعاً.", options: ["صح", "خطأ"], correct: "صح" },
         { section: "الصح والخطأ", q: "(إنَّ) و (أنَّ) حرفان يفيدان التمني.", options: ["صح", "خطأ"], correct: "خطأ" },
         { section: "الصح والخطأ", q: "من علامات الفعل قبوله لتاء الفاعل أو تاء التأنيث.", options: ["صح", "خطأ"], correct: "صح" },
@@ -124,7 +124,8 @@
     let timerInterval;
     let quizData = [];
 
-    function shuffle(array) {
+    // دالة الخلط (الأساسية)
+    function shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [array[i], array[j]] = [array[j], array[i]];
@@ -134,7 +135,10 @@
 
     function startQuiz() {
         if (!document.getElementById('student-name').value) { alert("لطفاً، سجل اسمك الثلاثي لتبدأ!"); return; }
-        quizData = [...rawData]; // تم تثبيت الترتيب ليمر الطالب بالأقسام الستة بانتظام
+        
+        // خلط مصفوفة الأسئلة بالكامل قبل البدء
+        quizData = shuffleArray([...rawData]); 
+        
         document.getElementById('login-section').classList.add('hidden');
         document.getElementById('quiz-section').classList.remove('hidden');
         showQuestion();
@@ -154,7 +158,8 @@
         container.innerHTML = '';
         document.getElementById('feedback').innerText = '';
 
-        const currentOpts = shuffle([...q.options]);
+        // خلط الخيارات أيضاً لزيادة التحدي
+        const currentOpts = shuffleArray([...q.options]);
         currentOpts.forEach((opt) => {
             const btn = document.createElement('button');
             btn.className = 'option-btn';
@@ -179,7 +184,7 @@
                 clearInterval(timerInterval);
                 disableOptions();
                 highlightCorrect(quizData[currentQ].correct);
-                document.getElementById('feedback').innerHTML = "<span style='color:orange'>انتهى الوقت! حاول التركيز أكثر ⏳</span>";
+                document.getElementById('feedback').innerHTML = "<span style='color:orange'>انتهى الوقت! ركز أكثر في القادم ⏳</span>";
                 setTimeout(nextQuestion, 3000);
             }
         }, 1000);
@@ -191,14 +196,14 @@
         if (isCorrect) {
             score++;
             btn.classList.add('correct-flash');
-            document.getElementById('feedback').innerHTML = "<span style='color:green'>إجابة متميزة! أحسنت يا بطل ✨</span>";
-            confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+            document.getElementById('feedback').innerHTML = "<span style='color:green'>إجابة متميزة! أحسنت ✨</span>";
+            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
         } else {
             btn.classList.add('wrong-flash');
             highlightCorrect(correctText);
-            document.getElementById('feedback').innerHTML = "<span style='color:red'>ليست دقيقة، الصواب موضح بالأخضر ✅</span>";
+            document.getElementById('feedback').innerHTML = "<span style='color:red'>ليست دقيقة، الصواب بالأخضر ✅</span>";
         }
-        setTimeout(nextQuestion, 3000);
+        setTimeout(nextQuestion, 3500);
     }
 
     function highlightCorrect(correctText) {
@@ -223,10 +228,10 @@
         document.getElementById('final-score').innerText = `${score} / ${quizData.length}`;
         
         let eval = "";
-        if (score === 36) eval = "أنت عبقري في النحو! درجة كاملة مذهلة 🏆";
-        else if (score >= 30) eval = "مستوى استثنائي! أنت فعلاً متميز 🌟";
-        else if (score >= 20) eval = "جيد جداً، واصل التدريب لتصل للقمة 💪";
-        else eval = "محاولة طيبة، مراجعة النواسخ ستجعلك أفضل في المرة القادمة!";
+        if (score === 36) eval = "أنت نابغة لغوي! درجة كاملة مستحقة 🏆";
+        else if (score >= 30) eval = "مستوى رائع جداً.. واصل تألقك 🌟";
+        else if (score >= 18) eval = "أداء جيد، يمكنك أن تصبح أفضل مع الممارسة 💪";
+        else eval = "محاولة لا بأس بها، تحدَّ نفسك مرة أخرى بتركيز أكبر!";
         
         document.getElementById('evaluation-text').innerText = eval;
     }
